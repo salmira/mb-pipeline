@@ -25,6 +25,6 @@ pipeline {
 }
 
 // Scriptual
-node {
+//node {
   //groovy script
-}
+//}
