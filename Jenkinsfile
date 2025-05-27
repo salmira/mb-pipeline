@@ -7,6 +7,11 @@ pipeline {
 		stage("build") {
 			steps {
 				echo "Building application... "
+				//Groovy script
+				script {
+				    def test = 2+2 > 3 ? "cool" : "not cool"
+				    echo test
+				}
 					
 			}
 		}
