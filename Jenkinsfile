@@ -24,6 +24,11 @@ pipeline {
 		stage("deploy") {
 			steps {
 				echo "Testing application... "
+				//Groovy script
+				script {
+				    def test = 30 +1 > 3 ? "cool" : "not cool"
+				    echo test
+				}
 			}
 		}		
 				
