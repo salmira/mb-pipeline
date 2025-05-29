@@ -16,7 +16,7 @@ pipeline {
 	}
 	tools {
 		maven 'Maven'
-		gladle 'gradle-8.14.1'
+		gradle 'gradle-8.14.1'
 		// jdk ...
 	}
 	stages {
