@@ -1,6 +1,7 @@
 // Jenkinsfile
 // Declarative
 // Ref: Jenkins Pipeline Tutorial https://www.youtube.com/watch?v=MY1w7sWW5ms&list=PLy7NrYWoggjw_LIiDK1LXdNN82uYuuuiC&index=3
+CODE_CHANGES = getGirChanges()
 pipeline {
 	agent any
 	stages {
@@ -16,6 +17,13 @@ pipeline {
 			}
 		}
 		stage("test") {
+			when {
+				expression {
+					// BRANCH_NAME == 'dev' || BRANCH_NAME == 'master'
+					BRANCH_NAME == 'dev' && CODE_CHANGES == true
+				}
+				
+			}
 			steps {
 				echo "Testing application... "
 			
