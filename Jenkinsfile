@@ -8,16 +8,28 @@ pipeline {
 		NEW_VERSION = '1.0.0'
 		SERVER_CREDENTIALS = credentials('server-credentials')
 	}
+	tools {
+		maven 'Maven'
+		gladle 'gradle-8.14.1'
+		// jdk ...
+	}
 	stages {
 		stage("build") {
 			steps {
 				echo "Building application... "
 				echo "Building version  ${NEW_VERSION}"
+				echo "Run Maven"
+				sh "mvn install"
+				echo "Run Gradle"
+				withGradle(){
+					sh 'gradle -v'
+				}
 				//Groovy script
 				script {
 				    def test = 2+2 > 3 ? "cool" : "not cool"
 				    echo test
 				}
+
 					
 			}
 		}
@@ -27,7 +39,7 @@ pipeline {
 				withCredentials({
 					usernamePassword(credentials: 'server-credentials', usernameVariable: USER, passwordVariable: PWD)
 				}) {
-					sh "some script ${USER} ${PWD}"
+					sh "echo ${USER} ${PWD}"
 				}
 			
 			}
