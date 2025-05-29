@@ -4,6 +4,11 @@
 // Resf: Jenkins environment variables http://localhost:8080/env-vars.html/
 pipeline {
 	agent any
+	parameters {
+		string(name: 'VERSION', defaultValue: '', description: 'version to deploy on prod')
+		choice(name: 'VERSIONS', choices: ['1.0.0', '1.2.0', '1.3.0'], description: '')
+		booleanParameter(name: 'execueTests', defaultValue: true, description: '')
+	}
 	environmnet {
 		NEW_VERSION = '1.0.0'
 		SERVER_CREDENTIALS = credentials('server-credentials')
@@ -34,6 +39,12 @@ pipeline {
 			}
 		}
 		stage("test") {
+			when {
+				expression {
+					params.execueTests == true
+					// params.execueTests 
+				}
+			}
 			steps {
 				echo 'Testing application... '
 				withCredentials({
@@ -47,6 +58,7 @@ pipeline {
 		stage("deploy") {
 			steps {
 				echo 'Deploying application... '
+				echo "deploying version ${VERSION}"
 				echo "deploying with ${SERVER_CREDENTIALS}"
 				sh "${SERVER_CREDENTIALS}"
 				//Groovy script
