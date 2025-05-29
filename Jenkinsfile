@@ -9,7 +9,7 @@ pipeline {
 		choice(name: 'VERSIONS', choices: ['1.0.0', '1.2.0', '1.3.0'], description: '')
 		booleanParameter(name: 'execueTests', defaultValue: true, description: '')
 	}
-	environmnet {
+	environment {
 		NEW_VERSION = '1.0.0'
 		SERVER_CREDENTIALS = credentials('server-credentials')
 	}
