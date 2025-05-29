@@ -4,10 +4,15 @@
 // Resf: Jenkins environment variables http://localhost:8080/env-vars.html/
 pipeline {
 	agent any
+	environmnet {
+		NEW_VERSION = '1.0.0'
+		SERVER_CREDENTIALS = credentials('server-credentials')
+	}
 	stages {
 		stage("build") {
 			steps {
 				echo "Building application... "
+				echo "Building version  ${NEW_VERSION}"
 				//Groovy script
 				script {
 				    def test = 2+2 > 3 ? "cool" : "not cool"
@@ -18,13 +23,20 @@ pipeline {
 		}
 		stage("test") {
 			steps {
-				echo "Testing application... "
+				echo 'Testing application... '
+				withCredentials({
+					usernamePassword(credentials: 'server-credentials', usernameVariable: USER, passwordVariable: PWD)
+				}) {
+					sh "some script ${USER} ${PWD}"
+				}
 			
 			}
 		}
 		stage("deploy") {
 			steps {
-				echo "Testing application... "
+				echo 'Deploying application... '
+				echo "deploying with ${SERVER_CREDENTIALS}"
+				sh "${SERVER_CREDENTIALS}"
 				//Groovy script
 				script {
 				    def test = 30 +1 > 3 ? "cool" : "not cool"
