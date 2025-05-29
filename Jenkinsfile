@@ -5,9 +5,10 @@
 pipeline {
 	agent any
 	parameters {
+		// Valid parameter types: [booleanParam, choice, credentials, file, text, password, run, string]
 		string(name: 'VERSION', defaultValue: '', description: 'version to deploy on prod')
 		choice(name: 'VERSIONS', choices: ['1.0.0', '1.2.0', '1.3.0'], description: '')
-		booleanParameter(name: 'execueTests', defaultValue: true, description: '')
+		booleanParam(name: 'execueTests', defaultValue: true, description: '')
 	}
 	environment {
 		NEW_VERSION = '1.0.0'
